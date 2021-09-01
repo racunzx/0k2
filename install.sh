@@ -261,13 +261,13 @@ function port_exist_check() {
 }
 
 function update_sh() {
-  ol_version=$(curl -L -s http://178.128.49.3/Xray_onekey/install.sh | grep "shell_version=" | head -1 | awk -F '=|"' '{print $3}')
+  ol_version=$(curl -L -s https://raw.githubusercontent.com/racunzx/0k2/main/install.sh | grep "shell_version=" | head -1 | awk -F '=|"' '{print $3}')
   if [[ "$shell_version" != "$(echo -e "$shell_version\n$ol_version" | sort -rV | head -1)" ]]; then
     print_ok "There is a new version, whether to update [Y/N]?"
     read -r update_confirm
     case $update_confirm in
     [yY][eE][sS] | [yY])
-      wget -N --no-check-certificate http://178.128.49.3/Xray_onekey/install.sh
+      wget -N --no-check-certificate https://raw.githubusercontent.com/racunzx/0k2/main/install.sh
       print_ok "update completed"
       print_ok "You can execute this program via bash $0"
       exit 0
@@ -282,7 +282,7 @@ function update_sh() {
 
 function configure_nginx() {
   nginx_conf="/etc/nginx/conf.d/${domain}.conf"
-  cd /etc/nginx/conf.d/ && rm -f ${domain}.conf && wget -O ${domain}.conf https://178.128.49.3/Xray_onekey/web.conf
+  cd /etc/nginx/conf.d/ && rm -f ${domain}.conf && wget -O ${domain}.conf https://raw.githubusercontent.com/racunzx/0k2/main/web.conf
   sed -i "s/xxx/${domain}/g" ${nginx_conf}
   judge "Nginx config modify"
 
